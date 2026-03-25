@@ -9,8 +9,8 @@ import Animated, {
   withSpring,
   Easing
 } from 'react-native-reanimated';
-import { Colors } from '../constants/Colors';
-import { useColorScheme } from '../components/useColorScheme';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 interface AngerButtonProps {
   onPress: () => void;

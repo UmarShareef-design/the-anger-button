@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, SectionList, RefreshControl } from 'react-native';
-import { Text, View } from '../../components/Themed';
-import { useAngerLog, AngerEntry } from '../../hooks/useAngerLog';
-import { Colors } from '../../constants/Colors';
-import { useColorScheme } from '../../components/useColorScheme';
-import { formatDate, formatTime, groupLogsByDate } from '../../utils/dateHelpers';
-import { Calendar, Trash2, Clock } from 'lucide-react-native';
-import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
+import { StyleSheet, SafeAreaView, SectionList, RefreshControl, Alert } from 'react-native';
+import { Text, View } from '@/components/Themed';
+import { useAngerLog, AngerEntry } from '@/hooks/useAngerLog';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
+import { formatTime, groupLogsByDate } from '@/utils/dateHelpers';
+import { Ionicons } from '@expo/vector-icons';
+import Animated, { FadeInUp, Layout } from 'react-native-reanimated';
 
 export default function HistoryScreen() {
   const colorScheme = useColorScheme();
@@ -15,14 +15,33 @@ export default function HistoryScreen() {
 
   const sections = groupLogsByDate(logs);
 
+  const confirmClear = () => {
+    Alert.alert(
+      "Clear History",
+      "Are you sure you want to delete all entries? This cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete Everything", style: "destructive", onPress: clearLogs }
+      ]
+    );
+  };
+
   const renderItem = ({ item }: { item: AngerEntry }) => (
     <Animated.View 
       entering={FadeInUp.duration(400)}
+      layout={Layout.springify()}
       style={[styles.entryCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
     >
-      <View style={styles.timeRow}>
-        <Clock size={16} color={theme.textMuted} />
-        <Text style={[styles.timeText, { color: theme.text }]}>{formatTime(item.timestamp)}</Text>
+      <View style={styles.cardMain}>
+        <View style={styles.timeRow}>
+          <Ionicons name="time-outline" size={14} color={theme.textMuted} />
+          <Text style={[styles.timeText, { color: theme.text }]}>{formatTime(item.timestamp)}</Text>
+        </View>
+        {item.note && (
+          <Text style={[styles.noteText, { color: theme.textMuted }]}>
+            {item.note}
+          </Text>
+        )}
       </View>
       <View style={[styles.intensityBadge, { backgroundColor: theme.tint + '20' }]}>
         <Text style={[styles.intensityText, { color: theme.tint }]}>Intensity {item.intensity}/5</Text>
@@ -40,7 +59,12 @@ export default function HistoryScreen() {
           </Text>
         </View>
         {logs.length > 0 && (
-          <Trash2 size={24} color={theme.textMuted} onPress={clearLogs} />
+          <Ionicons 
+            name="trash-outline" 
+            size={24} 
+            color={theme.textMuted} 
+            onPress={confirmClear} 
+          />
         )}
       </View>
 
@@ -58,12 +82,12 @@ export default function HistoryScreen() {
           <RefreshControl refreshing={loading} onRefresh={refreshLogs} tintColor={theme.tint} />
         }
         ListEmptyComponent={
-          <Animated.View entering={FadeInDown} style={styles.emptyContainer}>
-            <Calendar size={64} color={theme.border} />
+          <View style={styles.emptyContainer}>
+            <Ionicons name="calendar-outline" size={64} color={theme.border} />
             <Text style={[styles.emptyText, { color: theme.textMuted }]}>
               No entries yet. Relax, that's a good thing!
             </Text>
-          </Animated.View>
+          </View>
         }
       />
     </SafeAreaView>
@@ -111,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    borderRadius: 16,
+    borderRadius: 20,
     marginBottom: 12,
     borderWidth: 1,
     elevation: 2,
@@ -120,23 +144,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
   },
+  cardMain: {
+    flex: 1,
+    gap: 4,
+  },
   timeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   timeText: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  noteText: {
+    fontSize: 13,
+    fontStyle: 'italic',
+    lineHeight: 18,
   },
   intensityBadge: {
+    marginLeft: 12,
     paddingHorizontal: 12,
-    paddingVertical: 4,
+    paddingVertical: 6,
     borderRadius: 20,
   },
   intensityText: {
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 11,
+    fontWeight: '700',
   },
   emptyContainer: {
     flex: 1,

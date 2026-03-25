@@ -22,8 +22,12 @@ export const formatTime = (timestamp: number) => {
   });
 };
 
-export const groupLogsByDate = (logs: any[]) => {
-  const groups: { [key: string]: any[] } = {};
+interface MinimalEntry {
+  timestamp: number;
+}
+
+export const groupLogsByDate = <T extends MinimalEntry>(logs: T[]) => {
+  const groups: { [key: string]: T[] } = {};
   
   logs.forEach(log => {
     const dateLabel = formatDate(log.timestamp);

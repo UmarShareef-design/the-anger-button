@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { Text, View } from '../../components/Themed';
-import { useAngerLog } from '../../hooks/useAngerLog';
-import { useReflections } from '../../hooks/useReflections';
-import { Colors } from '../../constants/Colors';
-import { useColorScheme } from '../../components/useColorScheme';
-import { Sparkles, Brain, TrendingUp } from 'lucide-react-native';
+import { Text, View } from '@/components/Themed';
+import { useAngerLog } from '@/hooks/useAngerLog';
+import { useReflections } from '@/hooks/useReflections';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeIn, SlideInRight } from 'react-native-reanimated';
 
 export default function ReflectionsScreen() {
@@ -25,8 +25,8 @@ export default function ReflectionsScreen() {
         </View>
 
         {!weeklyStats ? (
-          <Animated.View entering={FadeIn.delay(300)} style={styles.emptyCard}>
-            <Brain size={48} color={theme.border} />
+          <Animated.View entering={FadeIn.delay(300)} style={[styles.emptyCard, { borderColor: theme.border }]}>
+            <Ionicons name="sparkles-outline" size={48} color={theme.border} />
             <Text style={[styles.emptyText, { color: theme.textMuted }]}>
               Not enough data yet for a weekly reflection. 
               Keep checking in with yourself.
@@ -35,7 +35,7 @@ export default function ReflectionsScreen() {
         ) : (
           <Animated.View entering={SlideInRight.springify()} style={[styles.card, { backgroundColor: theme.accent + '15', borderColor: theme.accent + '40' }]}>
             <View style={styles.cardHeader}>
-              <Sparkles size={24} color={theme.accent} />
+              <Ionicons name="sparkles-outline" size={24} color={theme.accent} />
               <Text style={[styles.cardTitle, { color: theme.accent }]}>Weekly Pulse</Text>
             </View>
 
@@ -51,7 +51,7 @@ export default function ReflectionsScreen() {
             </View>
 
             <View style={[styles.insightBox, { backgroundColor: theme.surface }]}>
-              <TrendingUp size={20} color={theme.accent} />
+              <Ionicons name="analytics-outline" size={20} color={theme.accent} />
               <Text style={[styles.insightText, { color: theme.text }]}>
                 Your average intensity was {weeklyStats.avgIntensity}/5. 
               </Text>
@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: '#eee',
     borderStyle: 'dashed',
     gap: 20,
     marginBottom: 30,

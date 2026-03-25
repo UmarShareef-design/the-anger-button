@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Modal, Pressable, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { Text, View } from './Themed';
-import { Colors } from '../constants/Colors';
+import { Colors } from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
 
 interface IntensityModalProps {

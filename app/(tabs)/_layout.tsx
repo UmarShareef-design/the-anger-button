@@ -1,12 +1,14 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { Activity, History, Sparkles } from 'lucide-react-native';
-import { Colors } from '../../constants/Colors';
-import { useColorScheme } from '../../components/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme ?? 'light'];
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -16,8 +18,8 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: theme.surface,
           borderTopColor: theme.border,
-          height: 85,
-          paddingBottom: 40,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom - 5 : 10,
           paddingTop: 10,
         },
         tabBarLabelStyle: {
@@ -30,21 +32,21 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Button',
-          tabBarIcon: ({ color }) => <Activity size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="pulse-outline" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
           title: 'History',
-          tabBarIcon: ({ color }) => <History size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="time-outline" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="reflections"
         options={{
           title: 'Reflect',
-          tabBarIcon: ({ color }) => <Sparkles size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="sparkles-outline" size={24} color={color} />,
         }}
       />
     </Tabs>

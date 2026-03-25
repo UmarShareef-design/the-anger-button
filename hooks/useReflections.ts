@@ -11,8 +11,8 @@ export const useReflections = (logs: AngerEntry[]) => {
   const weeklyStats = useMemo(() => {
     if (logs.length === 0) return null;
 
-    const now = new Date();
-    const startOfWeek = new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0);
+    const now = Date.now();
+    const startOfWeek = new Date(now - 7 * 24 * 60 * 60 * 1000).setHours(0, 0, 0, 0);
     const weeklyLogs = logs.filter(log => log.timestamp >= startOfWeek);
 
     if (weeklyLogs.length === 0) return null;

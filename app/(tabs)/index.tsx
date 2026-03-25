@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, Dimensions } from 'react-native';
-import { Text, View } from '../../components/Themed';
-import { AngerButton } from '../../components/AngerButton';
-import { IntensityModal } from '../../components/IntensityModal';
-import { useAngerLog } from '../../hooks/useAngerLog';
-import { Colors } from '../../constants/Colors';
-import { useColorScheme } from '../../components/useColorScheme';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import { Text, View } from '@/components/Themed';
+import { AngerButton } from '@/components/AngerButton';
+import { IntensityModal } from '@/components/IntensityModal';
+import { useAngerLog } from '@/hooks/useAngerLog';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
 
 const QUOTES = [

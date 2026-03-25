@@ -2,8 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const KEYS = {
   ANGER_ENTRIES: '@anger_entries',
-  REFLECTION_SETTINGS: '@reflection_settings',
-  NOTIFICATION_SETTINGS: '@notification_settings',
 };
 
 export const storage = {
