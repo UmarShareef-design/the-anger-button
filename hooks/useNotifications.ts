@@ -12,6 +12,8 @@ Notifications.setNotificationHandler({
 
 export const useNotifications = () => {
   useEffect(() => {
+    if (Platform.OS === 'web') return;
+
     const setup = async () => {
       const hasPermission = await registerForPushNotificationsAsync();
       if (hasPermission) {

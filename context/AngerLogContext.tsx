@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import * as Haptics from 'expo-haptics';
+import { Platform } from 'react-native';
 import { storage, KEYS } from '@/utils/storage';
 
 export interface AngerEntry {
@@ -38,7 +39,9 @@ export function AngerLogProvider({ children }: { children: React.ReactNode }) {
   }, [fetchLogs]);
 
   const addEntry = useCallback(async (intensity: number = 3, note?: string) => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    if (Platform.OS !== 'web') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
 
     // Fixed ID generation with lower risk of collision
     const newEntry: AngerEntry = {
